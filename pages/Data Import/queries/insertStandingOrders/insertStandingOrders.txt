@@ -1,0 +1,5 @@
+TRUNCATE TABLE standing_orders CASCADE;
+
+INSERT INTO standing_orders (job_no, dept, customer, category, product_no, description, qty, bal, due_date, ispm15)
+SELECT job_no, dept, customer, category, product_no, description, qty, bal, due_date::date, ispm15
+FROM json_populate_recordset(null::standing_orders, '{{JSON.stringify(fpStandingOrders.files[0].data)}}');

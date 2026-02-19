@@ -1,0 +1,5 @@
+TRUNCATE TABLE sales CASCADE;
+
+INSERT INTO sales (job_no, product_no, dept, customer, description, category, qty, price, total, delivery_date, due_date)
+SELECT job_no, product_no, dept, customer, description, category, qty, price, total, delivery_date::date, due_date::date
+FROM json_populate_recordset(null::sales, '{{JSON.stringify(fpSales.files[0].data)}}');

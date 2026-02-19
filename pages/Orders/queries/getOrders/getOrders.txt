@@ -1,0 +1,1 @@
+SELECT * FROM orders WHERE dept IN ('T', 'W') ORDER BY due_date;

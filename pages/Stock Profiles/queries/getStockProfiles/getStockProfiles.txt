@@ -1,0 +1,1 @@
+SELECT * FROM stock_profiles ORDER BY timber, profile, length;

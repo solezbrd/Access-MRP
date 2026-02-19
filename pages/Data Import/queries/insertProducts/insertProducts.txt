@@ -1,0 +1,5 @@
+TRUNCATE TABLE products CASCADE;
+
+INSERT INTO products (product_no, dept, customer, description, price, production, category, timber, last_del_date)
+SELECT product_no, dept, customer, description, price, production, category, timber, last_del_date::date
+FROM json_populate_recordset(null::products, '{{JSON.stringify(fpProducts.files[0].data)}}');

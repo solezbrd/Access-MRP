@@ -1,0 +1,8 @@
+INSERT INTO production_runs (source_type, source_id, product_no, qty, target_date)
+VALUES (
+  'order',
+  {{tblOrders.selectedRow?.id}},
+  {{tblOrders.selectedRow?.product_no}},
+  {{inpRunQty.text}},
+  {{dpRunDate.selectedDate}}
+);

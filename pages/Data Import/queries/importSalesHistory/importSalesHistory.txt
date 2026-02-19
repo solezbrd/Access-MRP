@@ -1,0 +1,5 @@
+TRUNCATE TABLE sales_history;
+
+INSERT INTO sales_history (dept, customer, delivery_date, qty, product_no, description, price, category, timber, suburb)
+SELECT dept, customer, delivery_date::date, qty, product_no, description, price::numeric, category, timber, suburb
+FROM json_populate_recordset(null::sales_history, '{{JSON.stringify(fpSalesHistory.files[0].data)}}');

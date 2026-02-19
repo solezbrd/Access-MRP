@@ -1,0 +1,34 @@
+SELECT 
+    b.timber,
+    b.profile,
+    b.length,
+    b.qty as bom_qty,
+    b.qty * {{tblProductionRuns.selectedRow.qty}} as total_qty,
+    CASE
+        WHEN sp_exact.id IS NOT NULL THEN 'Ready'
+        WHEN sp_longer.length IS NOT NULL THEN 'Needs Cutting'
+        WHEN sp_raw.id IS NOT NULL THEN 'Needs Cutting'
+        ELSE 'Needs Ordering'
+    END as status,
+    CASE
+        WHEN sp_exact.id IS NOT NULL THEN NULL
+        WHEN sp_longer.length IS NOT NULL THEN sp_longer.length
+        ELSE NULL
+    END as cut_from
+FROM bom b
+LEFT JOIN stock_profiles sp_exact ON b.timber = sp_exact.timber 
+    AND b.profile = sp_exact.profile 
+    AND b.length = sp_exact.length
+LEFT JOIN LATERAL (
+    SELECT length, id FROM stock_profiles 
+    WHERE timber = b.timber AND profile = b.profile 
+    AND length > b.length
+    ORDER BY length ASC
+    LIMIT 1
+) sp_longer ON sp_exact.id IS NULL
+LEFT JOIN stock_profiles sp_raw ON b.timber = sp_raw.timber 
+    AND b.profile = sp_raw.profile 
+    AND sp_raw.length IS NULL
+    AND sp_exact.id IS NULL 
+    AND sp_longer.id IS NULL
+WHERE b.product_no = {{tblProductionRuns.selectedRow.product_no}};

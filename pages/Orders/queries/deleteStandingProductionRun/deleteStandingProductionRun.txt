@@ -1,0 +1,1 @@
+DELETE FROM production_runs WHERE id = {{tblStandingOrderRuns.triggeredRow.id}};

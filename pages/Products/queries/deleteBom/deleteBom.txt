@@ -1,0 +1,1 @@
+DELETE FROM bom WHERE id = {{tblBom.triggeredRow.id}};

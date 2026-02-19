@@ -1,0 +1,6 @@
+UPDATE bom 
+SET timber = {{tblBom.updatedRow.timber}},
+    profile = {{tblBom.updatedRow.profile}},
+    length = {{tblBom.updatedRow.length}},
+    qty = {{tblBom.updatedRow.qty}}
+WHERE id = {{tblBom.updatedRow.id}};

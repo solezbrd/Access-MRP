@@ -1,0 +1,28 @@
+SELECT 
+    b.timber,
+    b.profile,
+    COALESCE(sp_exact.length, sp_longer.length) as order_length,
+    ROUND(
+        SUM(
+            b.qty * pr.qty * 
+            (SPLIT_PART(b.profile, 'x', 1)::numeric / 1000) * 
+            (SPLIT_PART(b.profile, 'x', 2)::numeric / 1000) * 
+            (COALESCE(sp_exact.length, sp_longer.length, b.length)::numeric / 1000)
+        )
+    , 4) as total_m3
+FROM production_runs pr
+JOIN bom b ON pr.product_no = b.product_no
+LEFT JOIN stock_profiles sp_exact ON b.timber = sp_exact.timber 
+    AND b.profile = sp_exact.profile 
+    AND b.length = sp_exact.length
+LEFT JOIN LATERAL (
+    SELECT length, id FROM stock_profiles 
+    WHERE timber = b.timber AND profile = b.profile 
+    AND length > b.length
+    ORDER BY length ASC
+    LIMIT 1
+) sp_longer ON sp_exact.id IS NULL
+WHERE pr.status = 'Pending'
+    AND ({{selTimber.selectedOptionValue}} = 'All' OR b.timber = {{selTimber.selectedOptionValue}})
+GROUP BY b.timber, b.profile, COALESCE(sp_exact.length, sp_longer.length)
+ORDER BY b.timber, b.profile, order_length;

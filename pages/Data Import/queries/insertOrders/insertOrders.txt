@@ -1,0 +1,5 @@
+TRUNCATE TABLE orders CASCADE;
+
+INSERT INTO orders (job_no, dept, customer, category, product_no, description, qty, bal, due_date, ispm15)
+SELECT job_no, dept, customer, category, product_no, description, qty, bal, due_date::date, ispm15
+FROM json_populate_recordset(null::orders, '{{JSON.stringify(fpOrders.files[0].data)}}');

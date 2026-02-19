@@ -1,0 +1,6 @@
+INSERT INTO stock_profiles (timber, profile, length)
+VALUES (
+  {{tblStockProfile.newRow?.timber}},
+  {{tblStockProfile.newRow?.profile}},
+  {{tblStockProfile.newRow?.length}}
+);

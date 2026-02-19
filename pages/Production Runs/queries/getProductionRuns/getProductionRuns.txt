@@ -1,0 +1,18 @@
+SELECT pr.id, pr.source_type, pr.qty, pr.target_date, pr.status, pr.product_no,
+       CASE 
+         WHEN pr.source_type = 'order' THEN o.job_no
+         WHEN pr.source_type = 'standing_order' THEN so.job_no
+       END as job_no,
+       CASE 
+         WHEN pr.source_type = 'order' THEN o.customer
+         WHEN pr.source_type = 'standing_order' THEN so.customer
+       END as customer,
+       CASE 
+         WHEN pr.source_type = 'order' THEN o.description
+         WHEN pr.source_type = 'standing_order' THEN so.description
+       END as description
+FROM production_runs pr
+LEFT JOIN orders o ON pr.source_id = o.id AND pr.source_type = 'order'
+LEFT JOIN standing_orders so ON pr.source_id = so.id AND pr.source_type = 'standing_order'
+WHERE pr.status IN ('Pending', 'In Progress')
+ORDER BY pr.target_date;

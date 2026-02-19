@@ -1,0 +1,5 @@
+TRUNCATE TABLE bom CASCADE;
+
+INSERT INTO bom (product_no, timber, profile, length, qty)
+SELECT product_no, timber, profile, length, qty
+FROM json_populate_recordset(null::bom, '{{JSON.stringify(fpBom.files[0].data)}}');

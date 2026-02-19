@@ -1,0 +1,1 @@
+SELECT name FROM lu_profile ORDER BY name;

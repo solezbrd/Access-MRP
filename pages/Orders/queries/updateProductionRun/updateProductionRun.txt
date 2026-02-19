@@ -1,0 +1,5 @@
+UPDATE production_runs
+SET qty = {{tblOrderRuns.updatedRow.qty}},
+    target_date = {{tblOrderRuns.updatedRow.target_date}},
+    status = {{tblOrderRuns.updatedRow.status}}
+WHERE id = {{tblOrderRuns.updatedRow.id}};

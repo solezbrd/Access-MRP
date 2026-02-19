@@ -1,0 +1,1 @@
+SELECT * FROM bom WHERE product_no = {{tblProducts.selectedRow.product_no}};

@@ -1,0 +1,8 @@
+INSERT INTO bom (product_no, timber, profile, length, qty)
+VALUES (
+  {{tblProducts.selectedRow.product_no}},
+  {{tblBom.newRow.timber}},
+  {{tblBom.newRow.profile}},
+  {{tblBom.newRow.length}},
+  {{tblBom.newRow.qty}}
+);

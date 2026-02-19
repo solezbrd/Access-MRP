@@ -1,0 +1,3 @@
+SELECT COALESCE(SUM(qty), 0) as allocated 
+FROM production_runs 
+WHERE source_type = 'standing_order' AND source_id = {{tblStandingOrders.selectedRow.id}};

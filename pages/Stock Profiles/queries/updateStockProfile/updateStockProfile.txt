@@ -1,0 +1,5 @@
+UPDATE stock_profiles
+SET timber = {{tblStockProfile.updatedRow.timber}},
+    profile = {{tblStockProfile.updatedRow.profile}},
+    length = {{tblStockProfile.updatedRow.length}}
+WHERE id = {{tblStockProfile.updatedRow.id}};
