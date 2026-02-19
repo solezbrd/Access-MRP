@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_15cf9f0a-2473-47cb-983c-517773a1da25",
-  "id": "Orders_updateStandingProductionRun",
+  "gitSyncId": "699387b8cf3d5e4f99911848_07abd9f3-69c2-4f06-a34c-4e4554c72612",
+  "id": "Timber Orders_getStandingOrderRuns",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "UPDATE production_runs\nSET qty = {{tblStandingOrderRuns.updatedRow.qty}},\n    target_date = {{tblStandingOrderRuns.updatedRow.target_date}},\n    status = {{tblStandingOrderRuns.updatedRow.status}}\nWHERE id = {{tblStandingOrderRuns.updatedRow.id}};",
+      "body": "SELECT * FROM production_runs \nWHERE source_type = 'standing_order' AND source_id = {{tblStandingOrders.selectedRow?.id}}\nORDER BY target_date;",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
@@ -27,9 +27,9 @@
         "key": "body"
       }
     ],
-    "name": "updateStandingProductionRun",
-    "pageId": "Orders",
-    "runBehaviour": "MANUAL",
+    "name": "getStandingOrderRuns",
+    "pageId": "Timber Orders",
+    "runBehaviour": "AUTOMATIC",
     "userSetOnLoad": false
   }
 }

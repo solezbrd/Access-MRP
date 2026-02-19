@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_22883f5d-618d-4315-bb15-54ce1538ddf3",
-  "id": "Orders_getStandingOrders",
+  "gitSyncId": "699387b8cf3d5e4f99911848_86b7aa80-9072-4312-ace6-02d097fbe204",
+  "id": "Timber Orders_getOrderRuns",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "SELECT * FROM standing_orders WHERE dept IN ('T', 'W') ORDER BY due_date;",
+      "body": "SELECT * FROM production_runs \nWHERE source_type = 'order' AND source_id = {{tblOrders.selectedRow?.id}}\nORDER BY target_date;",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
@@ -22,9 +22,13 @@
       "name": "Access MRP",
       "pluginId": "postgres-plugin"
     },
-    "dynamicBindingPathList": [],
-    "name": "getStandingOrders",
-    "pageId": "Orders",
+    "dynamicBindingPathList": [
+      {
+        "key": "body"
+      }
+    ],
+    "name": "getOrderRuns",
+    "pageId": "Timber Orders",
     "runBehaviour": "AUTOMATIC",
     "userSetOnLoad": false
   }

@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_07abd9f3-69c2-4f06-a34c-4e4554c72612",
-  "id": "Orders_getStandingOrderRuns",
+  "gitSyncId": "699387b8cf3d5e4f99911848_34f93869-c411-45f6-937c-0e850aba5bb6",
+  "id": "Timber Orders_addProductionRun",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "SELECT * FROM production_runs \nWHERE source_type = 'standing_order' AND source_id = {{tblStandingOrders.selectedRow?.id}}\nORDER BY target_date;",
+      "body": "INSERT INTO production_runs (source_type, source_id, product_no, qty, target_date)\nVALUES (\n  'order',\n  {{tblOrders.selectedRow?.id}},\n  {{tblOrders.selectedRow?.product_no}},\n  {{inpRunQty.text}},\n  {{dpRunDate.selectedDate}}\n);",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
@@ -27,9 +27,9 @@
         "key": "body"
       }
     ],
-    "name": "getStandingOrderRuns",
-    "pageId": "Orders",
-    "runBehaviour": "AUTOMATIC",
+    "name": "addProductionRun",
+    "pageId": "Timber Orders",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": false
   }
 }

@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_b2762342-cebb-4db8-8503-07765675671f",
-  "id": "Orders_deleteStandingProductionRun",
+  "gitSyncId": "699387b8cf3d5e4f99911848_93ea2412-dc9b-4482-99dd-2b639eb0c5e7",
+  "id": "Timber Orders_updateProductionRun",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "DELETE FROM production_runs WHERE id = {{tblStandingOrderRuns.triggeredRow.id}};",
+      "body": "UPDATE production_runs\nSET qty = {{tblOrderRuns.updatedRow.qty}},\n    target_date = {{tblOrderRuns.updatedRow.target_date}},\n    status = {{tblOrderRuns.updatedRow.status}}\nWHERE id = {{tblOrderRuns.updatedRow.id}};",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
@@ -27,8 +27,8 @@
         "key": "body"
       }
     ],
-    "name": "deleteStandingProductionRun",
-    "pageId": "Orders",
+    "name": "updateProductionRun",
+    "pageId": "Timber Orders",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
   }

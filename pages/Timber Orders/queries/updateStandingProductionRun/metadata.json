@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_036c2e6d-1e02-479e-a9b4-804be5f46c2a",
-  "id": "Orders_getOrderAllocated",
+  "gitSyncId": "699387b8cf3d5e4f99911848_15cf9f0a-2473-47cb-983c-517773a1da25",
+  "id": "Timber Orders_updateStandingProductionRun",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "SELECT COALESCE(SUM(qty), 0) as allocated \nFROM production_runs \nWHERE source_type = 'order' AND source_id = {{tblOrders.selectedRow?.id}};",
+      "body": "UPDATE production_runs\nSET qty = {{tblStandingOrderRuns.updatedRow.qty}},\n    target_date = {{tblStandingOrderRuns.updatedRow.target_date}},\n    status = {{tblStandingOrderRuns.updatedRow.status}}\nWHERE id = {{tblStandingOrderRuns.updatedRow.id}};",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
@@ -27,9 +27,9 @@
         "key": "body"
       }
     ],
-    "name": "getOrderAllocated",
-    "pageId": "Orders",
-    "runBehaviour": "AUTOMATIC",
+    "name": "updateStandingProductionRun",
+    "pageId": "Timber Orders",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": false
   }
 }

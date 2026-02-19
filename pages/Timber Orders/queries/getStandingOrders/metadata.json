@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_5506f3ac-fa3d-4176-b9bb-66926a9e8bfb",
-  "id": "Orders_deleteProductionRun",
+  "gitSyncId": "699387b8cf3d5e4f99911848_22883f5d-618d-4315-bb15-54ce1538ddf3",
+  "id": "Timber Orders_getStandingOrders",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "DELETE FROM production_runs WHERE id = {{tblOrderRuns.triggeredRow.id}};",
+      "body": "SELECT * FROM standing_orders WHERE dept IN ('T', 'W') ORDER BY due_date;",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
@@ -22,14 +22,10 @@
       "name": "Access MRP",
       "pluginId": "postgres-plugin"
     },
-    "dynamicBindingPathList": [
-      {
-        "key": "body"
-      }
-    ],
-    "name": "deleteProductionRun",
-    "pageId": "Orders",
-    "runBehaviour": "MANUAL",
+    "dynamicBindingPathList": [],
+    "name": "getStandingOrders",
+    "pageId": "Timber Orders",
+    "runBehaviour": "AUTOMATIC",
     "userSetOnLoad": false
   }
 }

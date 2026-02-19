@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_73b22d81-2cb1-4fb5-8d0d-15d7ba2b3d99",
-  "id": "Orders_addStandingProductionRun",
+  "gitSyncId": "699387b8cf3d5e4f99911848_5506f3ac-fa3d-4176-b9bb-66926a9e8bfb",
+  "id": "Timber Orders_deleteProductionRun",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "INSERT INTO production_runs (source_type, source_id, product_no, qty, target_date)\nVALUES (\n  'standing_order',\n  {{tblStandingOrders.selectedRow?.id}},\n  {{tblStandingOrders.selectedRow?.product_no}},\n  {{inpStandingRunQty.text}},\n  {{dpStandingRunDate.selectedDate}}\n);",
+      "body": "DELETE FROM production_runs WHERE id = {{tblOrderRuns.triggeredRow.id}};",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
@@ -27,8 +27,8 @@
         "key": "body"
       }
     ],
-    "name": "addStandingProductionRun",
-    "pageId": "Orders",
+    "name": "deleteProductionRun",
+    "pageId": "Timber Orders",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
   }
