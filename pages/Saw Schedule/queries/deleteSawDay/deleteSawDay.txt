@@ -1,0 +1,1 @@
+DELETE FROM saw_schedule WHERE id = {{tblSawSchedule.triggeredRow.id}};

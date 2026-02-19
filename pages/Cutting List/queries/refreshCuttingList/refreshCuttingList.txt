@@ -1,38 +1,65 @@
 TRUNCATE TABLE cutting_list;
 
-INSERT INTO cutting_list (timber, profile, bom_length, order_length, total_qty, volume_m3, sort_order)
+-- Build cut items with per-item earliest due date, then rank profile groups
+-- by their earliest due date so the most urgent profile gets cut first.
+-- Within each profile group, cut longest pieces first.
+WITH cut_items AS (
+    SELECT
+        b.timber,
+        b.profile,
+        b.length                               AS bom_length,
+        COALESCE(sp_longer.length, b.length)   AS order_length,
+        SUM(b.qty * pr.qty)                    AS total_qty,
+        ROUND(SUM(
+            b.qty * pr.qty *
+            (SPLIT_PART(b.profile, 'x', 1)::numeric / 1000) *
+            (SPLIT_PART(b.profile, 'x', 2)::numeric / 1000) *
+            (COALESCE(sp_longer.length, b.length)::numeric / 1000)
+        ), 6)                                  AS volume_m3,
+        MIN(COALESCE(o.due_date, so.due_date)) AS earliest_due_date
+    FROM production_runs pr
+    JOIN bom b ON pr.product_no = b.product_no
+    LEFT JOIN orders o
+        ON pr.source_id = o.id AND pr.source_type = 'order'
+    LEFT JOIN standing_orders so
+        ON pr.source_id = so.id AND pr.source_type = 'standing_order'
+    LEFT JOIN stock_profiles sp_exact
+        ON b.timber = sp_exact.timber
+        AND b.profile = sp_exact.profile
+        AND b.length = sp_exact.length
+    LEFT JOIN LATERAL (
+        SELECT length FROM stock_profiles
+        WHERE timber = b.timber AND profile = b.profile AND length > b.length
+        ORDER BY length ASC LIMIT 1
+    ) sp_longer ON sp_exact.id IS NULL
+    LEFT JOIN stock_profiles sp_raw
+        ON b.timber = sp_raw.timber
+        AND b.profile = sp_raw.profile
+        AND sp_raw.length IS NULL
+        AND sp_exact.id IS NULL
+        AND sp_longer.length IS NULL
+    WHERE pr.status = 'Pending'
+        AND sp_exact.id IS NULL
+        AND (sp_longer.length IS NOT NULL OR sp_raw.id IS NOT NULL)
+    GROUP BY b.timber, b.profile, b.length, COALESCE(sp_longer.length, b.length)
+),
+-- Earliest due date for the whole profile group (drives group ordering)
+profile_priority AS (
+    SELECT timber, profile, MIN(earliest_due_date) AS profile_due_date
+    FROM cut_items
+    GROUP BY timber, profile
+)
+INSERT INTO cutting_list (timber, profile, bom_length, order_length, total_qty, volume_m3, earliest_due_date, sort_order)
 SELECT
-    b.timber,
-    b.profile,
-    b.length AS bom_length,
-    COALESCE(sp_longer.length, b.length) AS order_length,
-    SUM(b.qty * pr.qty) AS total_qty,
-    ROUND(SUM(
-        b.qty * pr.qty *
-        (SPLIT_PART(b.profile, 'x', 1)::numeric / 1000) *
-        (SPLIT_PART(b.profile, 'x', 2)::numeric / 1000) *
-        (COALESCE(sp_longer.length, b.length)::numeric / 1000)
-    ), 6) AS volume_m3,
-    ROW_NUMBER() OVER (ORDER BY b.timber, b.profile, b.length DESC) AS sort_order
-FROM production_runs pr
-JOIN bom b ON pr.product_no = b.product_no
-LEFT JOIN stock_profiles sp_exact
-    ON b.timber = sp_exact.timber
-    AND b.profile = sp_exact.profile
-    AND b.length = sp_exact.length
-LEFT JOIN LATERAL (
-    SELECT length FROM stock_profiles
-    WHERE timber = b.timber AND profile = b.profile AND length > b.length
-    ORDER BY length ASC LIMIT 1
-) sp_longer ON sp_exact.id IS NULL
-LEFT JOIN stock_profiles sp_raw
-    ON b.timber = sp_raw.timber
-    AND b.profile = sp_raw.profile
-    AND sp_raw.length IS NULL
-    AND sp_exact.id IS NULL
-    AND sp_longer.length IS NULL
-WHERE pr.status = 'Pending'
-    AND sp_exact.id IS NULL
-    AND (sp_longer.length IS NOT NULL OR sp_raw.id IS NOT NULL)
-GROUP BY b.timber, b.profile, b.length, COALESCE(sp_longer.length, b.length)
-ORDER BY b.timber, b.profile, b.length DESC;
+    ci.timber,
+    ci.profile,
+    ci.bom_length,
+    ci.order_length,
+    ci.total_qty,
+    ci.volume_m3,
+    ci.earliest_due_date,
+    ROW_NUMBER() OVER (
+        ORDER BY pp.profile_due_date, ci.timber, ci.profile, ci.bom_length DESC
+    ) AS sort_order
+FROM cut_items ci
+JOIN profile_priority pp ON ci.timber = pp.timber AND ci.profile = pp.profile;

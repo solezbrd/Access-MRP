@@ -1,0 +1,5 @@
+UPDATE saw_schedule
+SET start_time = {{tblSawSchedule.updatedRow.start_time}},
+    end_time   = {{tblSawSchedule.updatedRow.end_time}},
+    notes      = {{tblSawSchedule.updatedRow.notes}}
+WHERE id = {{tblSawSchedule.updatedRow.id}};

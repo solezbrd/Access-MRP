@@ -1,0 +1,8 @@
+INSERT INTO saw_schedule (schedule_date, start_time, end_time, notes)
+VALUES (
+    {{dpAddDate.formattedDate}},
+    {{inpAddStart.text || '08:00'}},
+    {{inpAddEnd.text || '16:00'}},
+    {{inpAddNotes.text || null}}
+)
+ON CONFLICT (schedule_date) DO NOTHING;

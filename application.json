@@ -47,6 +47,10 @@
     {
       "id": "Cutting List",
       "isDefault": false
+    },
+    {
+      "id": "Saw Schedule",
+      "isDefault": false
     }
   ],
   "unpublishedAppLayout": {
