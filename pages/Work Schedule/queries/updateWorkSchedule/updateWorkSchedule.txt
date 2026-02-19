@@ -1,0 +1,5 @@
+UPDATE work_schedule
+SET is_working  = {{tblWorkSchedule.updatedRow.is_working}},
+    start_time  = {{tblWorkSchedule.updatedRow.start_time}},
+    end_time    = {{tblWorkSchedule.updatedRow.end_time}}
+WHERE day_order = {{tblWorkSchedule.updatedRow.day_order}};

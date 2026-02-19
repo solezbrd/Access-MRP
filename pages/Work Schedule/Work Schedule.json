@@ -1,5 +1,5 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_ss000001-0000-0000-0000-000000000001",
+  "gitSyncId": "699387b8cf3d5e4f99911848_ws000001-0000-0000-0000-000000000001",
   "unpublishedPage": {
     "isHidden": false,
     "layouts": [
@@ -26,7 +26,7 @@
         }
       }
     ],
-    "name": "Saw Schedule",
-    "slug": "saw-schedule"
+    "name": "Work Schedule",
+    "slug": "work-schedule"
   }
 }

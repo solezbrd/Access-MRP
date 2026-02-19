@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_cl000001-0000-0000-0000-000000000007",
-  "id": "Cutting List_getSawSchedule",
+  "gitSyncId": "699387b8cf3d5e4f99911848_cl000001-0000-0000-0000-000000000008",
+  "id": "Cutting List_getWorkSchedule",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "SELECT * FROM saw_schedule ORDER BY schedule_date;",
+      "body": "SELECT * FROM work_schedule ORDER BY day_order;",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [{ "value": true }],
@@ -19,7 +19,7 @@
       "pluginId": "postgres-plugin"
     },
     "dynamicBindingPathList": [],
-    "name": "getSawSchedule",
+    "name": "getWorkSchedule",
     "pageId": "Cutting List",
     "runBehaviour": "AUTOMATIC",
     "userSetOnLoad": true

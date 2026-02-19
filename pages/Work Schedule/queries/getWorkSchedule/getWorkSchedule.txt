@@ -1,0 +1,1 @@
+SELECT * FROM work_schedule ORDER BY day_order;

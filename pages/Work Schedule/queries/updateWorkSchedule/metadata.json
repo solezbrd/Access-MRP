@@ -1,11 +1,11 @@
 {
-  "gitSyncId": "699387b8cf3d5e4f99911848_ss000001-0000-0000-0000-000000000004",
-  "id": "Saw Schedule_updateSawDay",
+  "gitSyncId": "699387b8cf3d5e4f99911848_ws000001-0000-0000-0000-000000000003",
+  "id": "Work Schedule_updateWorkSchedule",
   "pluginId": "postgres-plugin",
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "UPDATE saw_schedule\nSET start_time = {{tblSawSchedule.updatedRow.start_time}},\n    end_time   = {{tblSawSchedule.updatedRow.end_time}},\n    notes      = {{tblSawSchedule.updatedRow.notes}}\nWHERE id = {{tblSawSchedule.updatedRow.id}};",
+      "body": "UPDATE work_schedule\nSET is_working  = {{tblWorkSchedule.updatedRow.is_working}},\n    start_time  = {{tblWorkSchedule.updatedRow.start_time}},\n    end_time    = {{tblWorkSchedule.updatedRow.end_time}}\nWHERE day_order = {{tblWorkSchedule.updatedRow.day_order}};",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [{ "value": true }],
@@ -19,8 +19,8 @@
       "pluginId": "postgres-plugin"
     },
     "dynamicBindingPathList": [{ "key": "body" }],
-    "name": "updateSawDay",
-    "pageId": "Saw Schedule",
+    "name": "updateWorkSchedule",
+    "pageId": "Work Schedule",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
   }
