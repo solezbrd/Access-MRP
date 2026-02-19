@@ -5,7 +5,7 @@
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "SELECT * FROM standing_orders WHERE dept IN ('T', 'W') ORDER BY due_date;",
+      "body": "SELECT o.*, COALESCE(pr.allocated, 0) AS allocated\nFROM standing_orders o\nLEFT JOIN (\n    SELECT source_id, SUM(qty) AS allocated\n    FROM production_runs\n    WHERE source_type = 'standing_order'\n    GROUP BY source_id\n) pr ON o.id = pr.source_id\nWHERE o.dept IN ('T', 'W')\nORDER BY o.due_date;",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
