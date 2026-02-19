@@ -9,7 +9,7 @@
   "isLoading": false,
   "isVisible": true,
   "key": "swallctd1x",
-  "label": "Allocated Only",
+  "label": "Unallocated Only",
   "leftColumn": 48,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,

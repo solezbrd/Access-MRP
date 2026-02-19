@@ -527,7 +527,7 @@
   "rightColumn": 64,
   "searchKey": "",
   "serverSidePaginationEnabled": true,
-  "tableData": "{{swAllocated.isSwitchedOn ? getOrders.data.filter(r => r.allocated > 0) : getOrders.data}}",
+  "tableData": "{{swAllocated.isSwitchedOn ? getOrders.data.filter(r => r.allocated === 0) : getOrders.data}}",
   "textSize": "0.875rem",
   "topRow": 0,
   "totalRecordsCount": 0,
