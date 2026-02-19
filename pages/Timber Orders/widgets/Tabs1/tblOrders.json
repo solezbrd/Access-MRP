@@ -42,6 +42,7 @@
     "due_date",
     "qty",
     "bal",
+    "allocated",
     "ispm15"
   ],
   "columnUpdatedAt": 1771296781695,
@@ -103,6 +104,9 @@
     },
     {
       "key": "primaryColumns.bal.computedValue"
+    },
+    {
+      "key": "primaryColumns.allocated.computedValue"
     },
     {
       "key": "primaryColumns.ispm15.computedValue"
@@ -362,6 +366,37 @@
       "verticalAlignment": "CENTER",
       "width": 150
     },
+    "allocated": {
+      "alias": "allocated",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "columnType": "number",
+      "computedValue": "{{(() => { const tableData = tblOrders.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"allocated\"])) : allocated })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "horizontalAlignment": "CENTER",
+      "id": "allocated",
+      "index": 10,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Allocated",
+      "notation": "standard",
+      "originalId": "allocated",
+      "sticky": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 110
+    },
     "ispm15": {
       "alias": "ispm15",
       "allowCellWrapping": false,
@@ -492,7 +527,7 @@
   "rightColumn": 64,
   "searchKey": "",
   "serverSidePaginationEnabled": true,
-  "tableData": "{{getOrders.data}}",
+  "tableData": "{{swAllocated.isSwitchedOn ? getOrders.data.filter(r => r.allocated > 0) : getOrders.data}}",
   "textSize": "0.875rem",
   "topRow": 0,
   "totalRecordsCount": 0,

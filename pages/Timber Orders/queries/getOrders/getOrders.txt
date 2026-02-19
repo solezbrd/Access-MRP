@@ -1,1 +1,10 @@
-SELECT * FROM orders WHERE dept IN ('T', 'W') ORDER BY due_date;
+SELECT o.*, COALESCE(pr.allocated, 0) AS allocated
+FROM orders o
+LEFT JOIN (
+    SELECT source_id, SUM(qty) AS allocated
+    FROM production_runs
+    WHERE source_type = 'order'
+    GROUP BY source_id
+) pr ON o.id = pr.source_id
+WHERE o.dept IN ('T', 'W')
+ORDER BY o.due_date;
