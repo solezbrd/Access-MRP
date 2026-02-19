@@ -1,0 +1,1 @@
+SELECT * FROM cutting_list ORDER BY sort_order, id;

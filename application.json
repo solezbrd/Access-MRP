@@ -43,6 +43,10 @@
     {
       "id": "Timber Demand",
       "isDefault": false
+    },
+    {
+      "id": "Cutting List",
+      "isDefault": false
     }
   ],
   "unpublishedAppLayout": {

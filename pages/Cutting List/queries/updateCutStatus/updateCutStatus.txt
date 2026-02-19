@@ -1,0 +1,3 @@
+UPDATE cutting_list
+SET is_cut = {{tblCuttingList.updatedRow.is_cut}}
+WHERE id = {{tblCuttingList.updatedRow.id}};

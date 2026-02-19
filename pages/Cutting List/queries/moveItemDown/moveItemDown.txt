@@ -1,0 +1,18 @@
+WITH target AS (
+    SELECT id, sort_order FROM cutting_list WHERE id = {{tblCuttingList.triggeredRow.id}}
+),
+next AS (
+    SELECT id, sort_order FROM cutting_list
+    WHERE sort_order > (SELECT sort_order FROM target)
+    ORDER BY sort_order ASC LIMIT 1
+),
+swap AS (
+    SELECT t.id AS tid, t.sort_order AS t_sort, n.id AS nid, n.sort_order AS n_sort
+    FROM target t, next n
+)
+UPDATE cutting_list
+SET sort_order = CASE
+    WHEN cutting_list.id = (SELECT tid FROM swap) THEN (SELECT n_sort FROM swap)
+    WHEN cutting_list.id = (SELECT nid FROM swap) THEN (SELECT t_sort FROM swap)
+END
+WHERE cutting_list.id IN ((SELECT tid FROM swap), (SELECT nid FROM swap));
