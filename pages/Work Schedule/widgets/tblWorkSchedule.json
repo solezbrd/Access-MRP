@@ -65,7 +65,7 @@
   "endOfData": false,
   "flexVerticalAlignment": "start",
   "horizontalAlignment": "CENTER",
-  "inlineEditingSaveOption": "CUSTOM",
+  "inlineEditingSaveOption": "ROW_LEVEL",
   "isLoading": false,
   "isSortable": false,
   "isVisible": true,
